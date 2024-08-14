@@ -1,94 +1,189 @@
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
+'use client';
 
-import { Sponsors } from '@/components/Sponsors';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
-export async function generateMetadata(props: { params: { locale: string } }) {
-  const t = await getTranslations({
-    locale: props.params.locale,
-    namespace: 'Index',
-  });
+import { MoreHoriz } from '@mui/icons-material';
+import { Box, Chip, InputBase, Paper, Typography } from '@mui/material';
+import { Stack } from '@mui/system';
+import { HomeIcon, SearchIcon } from '@storybook/icons';
 
-  return {
-    title: t('meta_title'),
-    description: t('meta_description'),
-  };
-}
+import CategoryCard from '@/components/CategoryCard';
+import ServiceCard from '@/components/ServiceCard';
 
-export default function Index(props: { params: { locale: string } }) {
-  unstable_setRequestLocale(props.params.locale);
+import HomeRepair from '../../../icons/House-repair.svg';
 
+const TopServices = [
+  {
+    name: 'Plumber',
+    icon: HomeRepair,
+  },
+  {
+    name: 'Electrician',
+    icon: HomeRepair,
+  },
+  {
+    name: 'Painter',
+    icon: HomeRepair,
+  },
+  {
+    name: 'Carpenter',
+    icon: HomeRepair,
+  },
+  {
+    name: 'Maid',
+    icon: HomeRepair,
+  },
+  {
+    name: 'Gardener',
+    icon: HomeRepair,
+  },
+];
+
+const ServiceCategories = [
+  {
+    name: 'Home Repair',
+    icon: <HomeRepair />,
+    link: '/services/home-repair',
+  },
+  {
+    name: 'Cleaning',
+    icon: <HomeRepair />,
+    link: '/services/cleaning',
+  },
+  {
+    name: 'Gardening',
+    icon: <HomeRepair />,
+    link: '/services/gardening',
+  },
+  {
+    name: 'Electrical',
+    icon: <HomeRepair />,
+    link: '/services/electrical',
+  },
+  {
+    name: 'Plumbing',
+    icon: <HomeRepair />,
+    link: '/services/plumbing',
+  },
+];
+
+const Categories = [
+  'Home Repair',
+  'Cleaning',
+  'Gardening',
+  'Electrical',
+  'Plumbing',
+  'More',
+];
+
+const sliderSettings = {
+  dots: true,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 2,
+      },
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+      },
+    },
+  ],
+};
+
+const SearchBar = () => {
   return (
-    <>
-      <p>
-        Looking for a SaaS Boilerplate?{' '}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://nextjs-boilerplate.com/pro-saas-starter-kit"
-        >
-          Next.js Boilerplate SaaS
-        </a>{' '}
-        can help you build one.
-      </p>
-      <p>
-        Follow{' '}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://twitter.com/ixartz"
-          target="_blank"
-        >
-          @Ixartz on Twitter
-        </a>{' '}
-        for updates and more information about the boilerplate.
-      </p>
-      <p>
-        Our sponsors&apos; exceptional support has made this project possible.
-        Their services integrate seamlessly with the boilerplate, and we
-        recommend trying them out.
-      </p>
-      <h2 className="mt-5 text-2xl font-bold">Sponsors</h2>
-      <Sponsors />
-      <h2 className="mt-5 text-2xl font-bold">
-        Boilerplate Code for Your Next.js Project with Tailwind CSS
-      </h2>
-      <p className="text-base">
-        <span role="img" aria-label="rocket">
-          🚀
-        </span>{' '}
-        Next.js Boilerplate is a developer-friendly starter code for Next.js
-        projects, built with Tailwind CSS, and TypeScript.{' '}
-        <span role="img" aria-label="zap">
-          ⚡️
-        </span>{' '}
-        Made with developer experience first: Next.js, TypeScript, ESLint,
-        Prettier, Husky, Lint-Staged, Jest (replaced by Vitest), Testing
-        Library, Commitlint, VSCode, PostCSS, Tailwind CSS, Authentication with{' '}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://clerk.com?utm_source=github&amp;utm_medium=sponsorship&amp;utm_campaign=nextjs-boilerplate"
-          target="_blank"
-        >
-          Clerk
-        </a>
-        , Database with DrizzleORM (PostgreSQL, SQLite, and MySQL), Error
-        Monitoring with{' '}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://sentry.io/for/nextjs/?utm_source=github&amp;utm_medium=paid-community&amp;utm_campaign=general-fy25q1-nextjs&amp;utm_content=github-banner-nextjsboilerplate-logo"
-          target="_blank"
-        >
-          Sentry
-        </a>
-        , Logging with Pino.js and Log Management with{' '}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://betterstack.com/?utm_source=github&amp;utm_medium=sponsorship&amp;utm_campaign=next-js-boilerplate"
-          target="_blank"
-        >
-          Better Stack
-        </a>
-        , Monitoring as Code with Checkly, Storybook, Multi-language (i18n), and
-        more.
-      </p>
-    </>
+    <Paper
+      component="form"
+      className="flex w-full bg-white"
+      sx={{
+        borderRadius: '1.5rem',
+        boxShadow: 'md',
+        alignItems: 'center',
+        padding: 1,
+      }}
+    >
+      <InputBase
+        className="ml-2 flex-1"
+        placeholder="Search"
+        inputProps={{ 'aria-label': 'search' }}
+        sx={{
+          pr: 1,
+        }}
+        endAdornment={<SearchIcon size={20} />}
+      />
+    </Paper>
+  );
+};
+
+export default function Index() {
+  return (
+    <Box>
+      <Typography sx={{ fontWeight: 'bold', mt: 2, mb: 1 }}>
+        Your One-Stop Solution for Local Services
+      </Typography>
+      <Box>
+        <SearchBar />
+      </Box>
+      <Stack direction="row" flexWrap="wrap" sx={{ gap: 1, mt: 2 }}>
+        {TopServices.map((service) => (
+          <Chip
+            key={service.name}
+            label={service.name}
+            clickable
+            icon={<HomeIcon />}
+            sx={{
+              backgroundColor: '#f5f9ff;',
+              color: 'black',
+              boxShadow: 3,
+              '&:hover': {
+                boxShadow: 6, // Increase shadow on hover
+              },
+            }}
+          />
+        ))}
+      </Stack>
+      <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 4, mb: 1 }}>
+        Service Categories
+      </Typography>
+      <Stack direction="row" flexWrap="wrap" sx={{ gap: 2, mt: 2 }}>
+        {ServiceCategories.map((category) => (
+          <CategoryCard
+            key={category.name}
+            Icon={<HomeIcon size={24} />}
+            name={category.name}
+            link={category.link}
+          />
+        ))}
+        <CategoryCard
+          Icon={<MoreHoriz size={24} />}
+          name="More"
+          link="/services"
+        />
+      </Stack>
+      <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 4, mb: 1 }}>
+        Top Services
+      </Typography>
+      <Box className="flex flex-col gap-4">
+        {TopServices.map((service) => (
+          <ServiceCard
+            key={service.name}
+            category="Home Repair"
+            serviceName={service.name}
+            title="Top-Notch Service"
+            description="We offer the best services in your area with top-quality professionals ready to assist you."
+            contacts={['(123) 456-7890', '(551) 260-6654']}
+          />
+        ))}
+      </Box>
+    </Box>
   );
 }

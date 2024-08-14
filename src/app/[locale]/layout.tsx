@@ -1,10 +1,11 @@
 import '@/styles/global.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
 
-import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
 
 export const metadata: Metadata = {
@@ -47,14 +48,16 @@ export default function RootLayout(props: {
 
   return (
     <html lang={props.params.locale}>
-      <body>
+      <body
+        style={{
+          backgroundColor: '#F6F5F7',
+        }}
+      >
         <NextIntlClientProvider
           locale={props.params.locale}
           messages={messages}
         >
           {props.children}
-
-          <DemoBadge />
         </NextIntlClientProvider>
       </body>
     </html>
