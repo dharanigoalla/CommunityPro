@@ -4,10 +4,7 @@ import '@/styles/global.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-export default function RootLayout(props: {
-  children: React.ReactNode;
-  params: { locale: string };
-}) {
+export default function RootLayout(props: { children: React.ReactNode }) {
   // Using internationalization in Client Components
 
   return (

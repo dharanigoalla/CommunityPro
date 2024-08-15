@@ -3,37 +3,29 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 
 interface ServiceCardProps {
   id: string;
   image?: string;
-  category: string;
   serviceName: string;
   title: string;
-  description: string;
   contacts: string[];
   email?: string;
 }
 
+// @ts-ignore
 const ServiceCard: React.FC<ServiceCardProps> = ({
   image = '/assets/images/services.jpg',
   id,
-  category,
   serviceName,
   title,
-  description,
   contacts,
   email,
 }) => {
-  const [expanded, setExpanded] = useState(false);
-  const handleExpandClick = () => {
-    setExpanded((prevState) => !prevState);
-  };
-
   const whatsappMessage = `Hello, I'm interested in your ${serviceName} services.`;
   const getWhatsAppLink = (contact: string) => {
-    return `https://wa.me/+1${contact.replace(/[^\d]/g, '')}?text=${encodeURIComponent(whatsappMessage)}`;
+    return `https://wa.me/+${contact.replace(/[^\d]/g, '')}?text=${encodeURIComponent(whatsappMessage)}`;
   };
 
   return (
@@ -73,14 +65,14 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             <Typography variant="body2" color="text.secondary">
               Contacts:
             </Typography>
-            {contacts.map((contact, index) => (
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <Link
-                  key={index}
-                  href={`tel:${contact}`}
-                  color="inherit"
-                  underline="none"
-                >
+            {contacts.map((contact) => (
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={1}
+                key={contact}
+              >
+                <Link href={`tel:${contact}`} color="inherit" underline="none">
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Typography variant="body2" color="text.secondary">
                       {contact}
@@ -88,7 +80,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                     <PhoneInTalkOutlined />
                   </Stack>
                 </Link>
-
                 <Link href={getWhatsAppLink(contact)} target="_blank">
                   <WhatsAppIcon />
                 </Link>

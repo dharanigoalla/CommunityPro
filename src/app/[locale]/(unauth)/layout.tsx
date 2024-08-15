@@ -3,6 +3,7 @@
 import { Box, CssBaseline } from '@mui/material';
 import React from 'react';
 
+// @ts-ignore
 import Header from '@/components/Header';
 
 export default function Layout(props: { children: React.ReactNode }) {

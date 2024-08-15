@@ -4,9 +4,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import { MoreHoriz } from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
 import { Box, Chip, Grid, InputBase, Paper, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { SearchIcon } from '@storybook/icons';
 import Image from 'next/image';
 
 import CategoryCard from '@/components/CategoryCard';

@@ -6,16 +6,18 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Grid,
   Link,
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
+import ServiceCard from '@/components/ServiceCard'; // Mock API function
 import {
   getService,
   getServiceProvider,
   getServiceProviders,
-} from '@/utils/apiMock'; // Mock API function
+} from '@/utils/apiMock';
 
 const ServiceProviderPage = (props) => {
   const { slug } = props.params;
@@ -87,6 +89,28 @@ const ServiceProviderPage = (props) => {
           </Typography>
         </CardContent>
       </Card>
+      {relatedProviders?.length > 0 && (
+        <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 4, mb: 1 }}>
+          Related Providers
+        </Typography>
+      )}
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2} sx={{ mt: 2 }}>
+          {relatedProviders?.map((relatedProvider) => (
+            <Grid item key={relatedProvider.id} xs={12} sm={6} md={4}>
+              <ServiceCard
+                id={relatedProvider.id}
+                serviceName={relatedProvider.name}
+                title={relatedProvider.title}
+                description={relatedProvider.description}
+                contacts={relatedProvider.contacts}
+                email={relatedProvider.email}
+                image={relatedProvider.image}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Box>
   );
 };

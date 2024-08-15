@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 const drawerWidth = 140;
 
-export const Header = () => {
+const Header = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [container, setContainer] = useState<any>(undefined);
 
