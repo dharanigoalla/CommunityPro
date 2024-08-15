@@ -40,12 +40,14 @@ export const Header = () => {
     <Box component="header" sx={{ display: 'flex' }}>
       <AppBar display="static" position="relative" color="transparent">
         <Box className="flex flex-1 justify-between bg-transparent  pl-5 pt-5">
-          <Image
-            src="/assets/images/crowdin-dark.png"
-            alt="Crowdin"
-            width={260}
-            height={224}
-          />
+          <Link href="/">
+            <Image
+              src="/assets/images/crowdin-dark.png"
+              alt="Crowdin"
+              width={260}
+              height={224}
+            />
+          </Link>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Link href="/about">
               <Button color="inherit">About</Button>

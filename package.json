@@ -35,6 +35,7 @@
     "@logtail/pino": "^0.4.22",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
+    "@mui/system": "^5.16.7",
     "@sentry/nextjs": "^8.19.0",
     "@spotlightjs/spotlight": "^2.0.0",
     "@styled-icons/material-rounded": "^10.47.0",
