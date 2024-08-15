@@ -13,8 +13,6 @@ interface ServiceCardProps {
   contacts: string[];
   email?: string;
 }
-
-// @ts-ignore
 const ServiceCard: React.FC<ServiceCardProps> = ({
   image = '/assets/images/services.jpg',
   id,
@@ -72,7 +70,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 spacing={1}
                 key={contact}
               >
-                <Link href={`tel:${contact}`} color="inherit" underline="none">
+                <Link href={`tel:${contact}`} color="inherit">
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Typography variant="body2" color="text.secondary">
                       {contact}

@@ -19,7 +19,7 @@ import {
   getServiceProviders,
 } from '@/utils/apiMock';
 
-const ServiceProviderPage = (props) => {
+const ServiceProviderPage = (props: any) => {
   const { slug } = props.params;
 
   const [provider, setProvider] = useState<any>(null);
@@ -96,13 +96,12 @@ const ServiceProviderPage = (props) => {
       )}
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2} sx={{ mt: 2 }}>
-          {relatedProviders?.map((relatedProvider) => (
+          {relatedProviders?.map((relatedProvider: any) => (
             <Grid item key={relatedProvider.id} xs={12} sm={6} md={4}>
               <ServiceCard
                 id={relatedProvider.id}
                 serviceName={relatedProvider.name}
                 title={relatedProvider.title}
-                description={relatedProvider.description}
                 contacts={relatedProvider.contacts}
                 email={relatedProvider.email}
                 image={relatedProvider.image}

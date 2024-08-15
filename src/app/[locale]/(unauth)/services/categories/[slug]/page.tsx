@@ -19,19 +19,19 @@ import {
   getServicesByIds,
 } from '@/utils/apiMock';
 
-export default function Page(props) {
+export default function Page(props: any) {
   const { params, query } = props;
   const { slug: categorySlug } = params;
 
   const [category, setCategory] = React.useState<any>(null);
-  const [services, setServices] = React.useState([]);
-  const [serviceProviders, setServiceProviders] = React.useState([]);
-  const [selectedServices, setSelectedServices] = React.useState([]);
+  const [services, setServices] = React.useState<any>([]);
+  const [serviceProviders, setServiceProviders] = React.useState<any>([]);
+  const [selectedServices, setSelectedServices] = React.useState<any>([]);
 
-  const onServiceSelect = (service) => {
-    setSelectedServices((prev) => {
+  const onServiceSelect = (service: any) => {
+    setSelectedServices((prev: any) => {
       if (prev.includes(service)) {
-        return prev.filter((s) => s !== service);
+        return prev.filter((s: any) => s !== service);
       }
       return [...prev, service];
     });
@@ -76,7 +76,7 @@ export default function Page(props) {
         <Typography variant="h5">{category?.name}</Typography>
         <Grid container spacing={2} />
         <Stack direction="row" flexWrap="wrap" sx={{ gap: 1, mt: 3 }}>
-          {services.map((service) => (
+          {services.map((service: any) => (
             <Chip
               key={service.name}
               label={service.name}
@@ -110,15 +110,13 @@ export default function Page(props) {
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            {serviceProviders.map((service) => (
+            {serviceProviders.map((service: any) => (
               <Grid item xs={12} sm={4} md={4} key={service.id}>
                 <ServiceCard
                   id={service.id}
                   key={service.name}
-                  category="Home Repair"
                   serviceName={service.name}
                   title={service.title}
-                  description={service.description}
                   contacts={service.phone}
                 />
               </Grid>

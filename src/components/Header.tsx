@@ -38,7 +38,7 @@ const Header = () => {
 
   return (
     <Box component="header" sx={{ display: 'flex' }}>
-      <AppBar display="static" position="relative" color="transparent">
+      <AppBar position="relative" color="transparent">
         <Box className="flex flex-1 justify-between bg-transparent  pl-5 pt-5">
           <Link href="/">
             <Image
@@ -60,7 +60,7 @@ const Header = () => {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
-            <MenuIcon size={24} />
+            <MenuIcon height={24} width={24} />
           </IconButton>
         </Box>
       </AppBar>

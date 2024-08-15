@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 import { getServiceCategory } from '@/utils/apiMock';
 
-const ServiceCategory = (props) => {
+const ServiceCategory = (props: any) => {
   const {
     params: { slug: serviceId },
   } = props;

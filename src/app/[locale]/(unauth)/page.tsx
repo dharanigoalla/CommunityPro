@@ -5,9 +5,21 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import { MoreHoriz } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Chip, Grid, InputBase, Paper, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Chip,
+  CircularProgress,
+  Grid,
+  InputBase,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { Stack } from '@mui/system';
-import Image from 'next/image';
+import React, { useState } from 'react';
 
 import CategoryCard from '@/components/CategoryCard';
 import ServiceCard from '@/components/ServiceCard';
@@ -15,30 +27,80 @@ import {
   getTopServiceCategories,
   getTopServiceProviders,
   getTopServices,
+  searchAll,
 } from '@/utils/apiMock';
 
 const SearchBar = () => {
+  const [results, setResults] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    if (value.length > 2) {
+      setLoading(true);
+      const searchResults = searchAll(value);
+      setResults(searchResults);
+      setLoading(false);
+    } else {
+      setResults([]);
+    }
+  };
+
   return (
-    <Paper
-      component="form"
-      className="flex w-full bg-white"
-      sx={{
-        borderRadius: '1.5rem',
-        boxShadow: 'md',
-        alignItems: 'center',
-        padding: 1,
-      }}
-    >
-      <InputBase
-        className="ml-2 flex-1"
-        placeholder="Search"
-        inputProps={{ 'aria-label': 'search' }}
+    <Box sx={{ position: 'relative' }}>
+      <Paper
+        component="form"
+        className="flex w-full bg-white"
         sx={{
-          pr: 1,
+          borderRadius: '1.5rem',
+          boxShadow: 'md',
+          alignItems: 'center',
+          padding: 1,
         }}
-        endAdornment={<SearchIcon size={20} />}
-      />
-    </Paper>
+      >
+        <InputBase
+          className="ml-2 flex-1"
+          placeholder="Search"
+          onChange={handleSearch}
+          inputProps={{ 'aria-label': 'search' }}
+          sx={{
+            pr: 1,
+          }}
+          endAdornment={<SearchIcon color="secondary" />}
+        />
+      </Paper>
+      {loading && (
+        <CircularProgress
+          size={24}
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            right: '10px',
+            transform: 'translateY(-50%)',
+          }}
+        />
+      )}
+      {results.length > 0 && (
+        <Paper
+          sx={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            right: 0,
+            zIndex: 10,
+            mt: 1,
+          }}
+        >
+          <List>
+            {results.map((result: any) => (
+              <ListItem key={result.id} component="a" href={result.link}>
+                <ListItemText primary={result.name} secondary={result.type} />
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
+      )}
+    </Box>
   );
 };
 
@@ -61,12 +123,7 @@ export default function Index() {
             label={service.name}
             clickable
             icon={
-              <Image
-                src={service.imageUrl}
-                alt={service.name}
-                width={24}
-                height={24}
-              />
+              <Avatar src={service?.imageUrl} sx={{ height: 24, width: 24 }} />
             }
             sx={{
               backgroundColor: '#f5f9ff;',
@@ -95,7 +152,14 @@ export default function Index() {
           />
         ))}
         <CategoryCard
-          Icon={<MoreHoriz size={48} />}
+          Icon={
+            <MoreHoriz
+              sx={{
+                height: 48,
+                width: 48,
+              }}
+            />
+          }
           name="More"
           link="/services/categories"
           imageUrl="/assets/images/more.png"
@@ -115,10 +179,8 @@ export default function Index() {
               <ServiceCard
                 id={service.id}
                 key={service.name}
-                category="Home Repair"
                 serviceName={service.name}
                 title={service.title}
-                description={service.description}
                 contacts={service.phone}
               />
             </Grid>

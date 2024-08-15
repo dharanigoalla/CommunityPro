@@ -222,31 +222,37 @@ const services = [
     id: '3m4n5o6p-dddd-11ec-82a8-0242ac130003',
     name: 'Police Department',
     description: 'Local police department contact information and services.',
+    imageUrl: '/assets/icons/handyMan.png',
   },
   {
     id: '4n5o6p7q-eeee-11ec-82a8-0242ac130003',
     name: 'Fire Department',
     description: 'Fire safety and emergency response services.',
+    imageUrl: '/assets/icons/handyMan.png',
   },
   {
     id: '5o6p7q8r-ffff-11ec-82a8-0242ac130003',
     name: 'Ambulance Services',
     description: 'Emergency ambulance services for medical emergencies.',
+    imageUrl: '/assets/icons/emergency-call.png',
   },
   {
     id: '6p7q8r9s-gggg-11ec-82a8-0242ac130003',
     name: 'Disaster Preparedness',
     description: 'Resources and training for disaster preparedness.',
+    imageUrl: '/assets/icons/emergency-call.png',
   },
   {
     id: '7q8r9s0t-hhhh-11ec-82a8-0242ac130003',
     name: 'Closed Community Houses',
     description: 'Housing and support services for closed communities.',
+    imageUrl: '/assets/icons/house.png',
   },
   {
     id: '8r9s0t1u-iiii-11ec-82a8-0242ac130003',
     name: 'Food Banks',
     description: 'Food distribution services for those in need.',
+    imageUrl: '/assets/icons/handyMan.png',
   },
   {
     id: '9s0t1u2v-jjjj-11ec-82a8-0242ac130003',
@@ -946,3 +952,65 @@ export const getTopServiceProviders = () => {
 //     ],
 //   },
 // ];
+
+interface SearchResult {
+  id: string;
+  name: string;
+  title?: string;
+  type: 'service' | 'category' | 'provider';
+  link: string;
+}
+
+export const searchAll = (searchText: string): SearchResult[] => {
+  const search = searchText.toLowerCase();
+  const regex = new RegExp(search, 'i');
+
+  const serviceResults = services
+    .filter(
+      (service) => regex.test(service.name) || regex.test(service.description),
+    )
+    .map((service) => {
+      const categ = serviceCategories.find((category) =>
+        category.service_ids.includes(service.id),
+      );
+      return {
+        id: service.id,
+        name: service.name,
+        type: 'service' as const,
+        link: `/services/categories/${categ?.id}?serviceId=${service.id}`,
+      };
+    });
+
+  const categoryResults = serviceCategories
+    .filter(
+      (category) =>
+        regex.test(category.name) || regex.test(category.description),
+    )
+    .map((category) => ({
+      id: category.id,
+      name: category.name,
+      type: 'category' as const,
+      link: `/services/categories/${category.id}`,
+    }));
+
+  const providerResults = serviceProviders
+    .filter(
+      (provider) =>
+        regex.test(provider.name) ||
+        regex.test(provider.title) ||
+        regex.test(provider.description),
+    )
+    .map((provider) => ({
+      id: provider.id,
+      name: provider.name,
+      title: provider.title,
+      type: 'provider' as const,
+      link: `/services/provider/${provider.id}`,
+    }));
+
+  return [
+    ...serviceResults,
+    ...categoryResults,
+    ...providerResults,
+  ] as SearchResult[];
+};
